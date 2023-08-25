@@ -42,6 +42,14 @@ function App() {
     setTasks([...tasks, newTask]);
   };
 
+  const handleChangeStatus = (taskId: string, isDone: boolean) => {
+    let task = tasks.find((t) => t.id === taskId);
+    if (task) {
+      task.isDone = isDone;
+    }
+    setTasks([...tasks]);
+  };
+
   return (
     <div className="App">
       <Todolist
@@ -50,6 +58,8 @@ function App() {
         handleRemoveItem={handleRemoveItem}
         handleChangeFilter={handleChangeFilter}
         handleAddTask={handleAddTask}
+        handleChangeStatus={handleChangeStatus}
+        filter={filter}
       />
       {/* <Todolist title='Movies' tasks={tasks2} handleRemoveItem={handleRemoveItem} /> */}
     </div>
