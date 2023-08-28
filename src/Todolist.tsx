@@ -16,6 +16,7 @@ type PropsType = {
   handleAddTask: (title: string, todolistId: string) => void;
   handleChangeStatus: (taskId: string, isDone: boolean, todolistId: string) => void;
   filter: FilterValueType;
+  handleOnRemoveTodolist: (todolistId: string) => void;
 };
 
 function Todolist(props: PropsType) {
@@ -50,9 +51,13 @@ function Todolist(props: PropsType) {
     props.handleChangeFilter("active", props.id);
   };
 
+  const handleOnRemoveTodolist = () => {
+    props.handleOnRemoveTodolist(props.id);
+  }
+
   return (
     <div>
-      <h3>{props.title}</h3>
+      <h3>{props.title}<button onClick={handleOnRemoveTodolist}>x</button></h3>
       <div>
         <input
           value={newTaskTitle}

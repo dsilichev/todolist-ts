@@ -61,6 +61,13 @@ function App() {
     setTasks({...tasksObj});
   };
 
+  const handleRemoveTodolist = (todolistId:string) => {
+    let filterdTodolist = todolists.filter(tl => tl.id !== todolistId);
+    setTodolists(filterdTodolist);
+    delete tasksObj[todolistId];
+    setTasks({...tasksObj});
+  }
+
   const todolistId1 = v1();
   const todolistId2 = v1();
 
@@ -102,6 +109,7 @@ function App() {
             handleAddTask={handleAddTask}
             handleChangeStatus={handleChangeStatus}
             filter={tl.filter}
+            handleOnRemoveTodolist={handleRemoveTodolist}
           />
         );
       })}
