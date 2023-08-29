@@ -2,6 +2,7 @@ import { type } from "@testing-library/user-event/dist/type";
 import React, { ChangeEvent } from "react";
 import { AddItemForm } from "./AddItemForm";
 import { FilterValueType } from "./App";
+import { EditableSpan } from "./EditablePropsType";
 
 export type TaskType = {
   id: string;
@@ -16,13 +17,22 @@ type PropsType = {
   handleRemoveItem: (id: string, todolistId: string) => void;
   handleChangeFilter: (value: FilterValueType, todolistId: string) => void;
   handleAddTask: (title: string, todolistId: string) => void;
-  handleChangeStatus: (taskId: string, isDone: boolean, todolistId: string) => void;
+  handleChangeStatus: (
+    taskId: string,
+    isDone: boolean,
+    todolistId: string
+  ) => void;
   filter: FilterValueType;
   handleOnRemoveTodolist: (todolistId: string) => void;
+  handleOnChangeTodolistTitle: (todolistId: string, newTitle: string) => void
+  handleChangeTitle: (
+    taskId: string,
+    newTitle: string,
+    todolistId: string
+  ) => void;
 };
 
 function Todolist(props: PropsType) {
-
   const handleOnAllFilter = () => {
     props.handleChangeFilter("all", props.id);
   };
@@ -37,14 +47,21 @@ function Todolist(props: PropsType) {
     props.handleOnRemoveTodolist(props.id);
   };
 
+  const handleOnChangeTodolistTitle = (newTitle: string) => {
+    props.handleOnChangeTodolistTitle(props.id, newTitle);
+  };
+
   const addTask = (title: string) => {
     props.handleAddTask(title, props.id);
-  }
+  };
 
   return (
     <div>
-      <h3>{props.title}<button onClick={handleOnRemoveTodolist}>x</button></h3>
-      <AddItemForm addItem={addTask}/>
+      <h3>
+        <EditableSpan title={props.title} onChange={handleOnChangeTodolistTitle} />
+        <button onClick={handleOnRemoveTodolist}>x</button>
+      </h3>
+      <AddItemForm addItem={addTask} />
       <ul>
         {props.tasks.map((t) => {
           const handleOnRemove = () => {
@@ -53,7 +70,9 @@ function Todolist(props: PropsType) {
           const handleOnChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
             props.handleChangeStatus(t.id, e.currentTarget.checked, props.id);
           };
-
+          const handleOnChangeTitle = (newValue: string) => {
+            props.handleChangeTitle(t.id, newValue, props.id)
+          }
           return (
             <li key={t.id} className={t.isDone ? "is-done" : ""}>
               <input
@@ -61,7 +80,7 @@ function Todolist(props: PropsType) {
                 checked={t.isDone}
                 onChange={handleOnChangeStatus}
               />
-              <span>{t.title}</span>
+              <EditableSpan title={t.title} onChange={handleOnChangeTitle} />
               <button onClick={handleOnRemove}>x</button>
             </li>
           );
