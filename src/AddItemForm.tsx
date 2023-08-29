@@ -1,7 +1,9 @@
+import { ControlPoint } from "@mui/icons-material";
+import { Button, IconButton, TextField } from "@mui/material";
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 
 export type AddItemFormType = {
-  addItem: (title:string) => void,
+  addItem: (title: string) => void;
 };
 
 export function AddItemForm(props: AddItemFormType) {
@@ -30,13 +32,18 @@ export function AddItemForm(props: AddItemFormType) {
 
   return (
     <div>
-      <input
+      <TextField
+        variant="outlined"
+        label="Type label"
         value={newTaskTitle}
         onChange={handleOnNewTitleChange}
         onKeyPress={handleOnKeyPress}
-        className={error ? "error" : ""} />
-      <button onClick={addTask}>+</button>
-      {error && <div className="error-message">{error}</div>}
+        error={!!error}
+        helperText={error}
+      />
+      <IconButton onClick={addTask} color={"primary"}>
+        <ControlPoint />
+      </IconButton>
     </div>
   );
 }
