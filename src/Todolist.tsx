@@ -81,13 +81,13 @@ function Todolist(props: PropsType) {
             props.handleChangeTitle(t.id, newValue, props.id);
           };
           return (
-            <li key={t.id} className={t.isDone ? "is-done" : ""}>
+            <div key={t.id} className={t.isDone ? "is-done" : ""}>
               <Checkbox checked={t.isDone} onChange={handleOnChangeStatus} />
               <EditableSpan title={t.title} onChange={handleOnChangeTitle} />
               <IconButton onClick={handleOnRemove}>
                 <Delete />
               </IconButton>
-            </li>
+            </div>
           );
         })}
       </ul>
